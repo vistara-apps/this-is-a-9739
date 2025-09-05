@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { getCurrentLocation, getLocationWithAddress, watchPosition, clearWatch } from '../services/location'
+import { getLocationWithAddress } from '../services/location'
 import useAppStore from '../stores/appStore'
 
 // Location hook
@@ -104,7 +104,7 @@ export const useRecording = () => {
 export const useFormValidation = (initialValues, validationRules) => {
   const [values, setValues] = useState(initialValues)
   const [errors, setErrors] = useState({})
-  const [touched, setTouched] = useState({})
+  const [touched, setTouchedState] = useState({})
 
   const validate = useCallback((fieldName, value) => {
     const rules = validationRules[fieldName]
@@ -128,7 +128,7 @@ export const useFormValidation = (initialValues, validationRules) => {
   }, [touched, validate])
 
   const setTouched = useCallback((fieldName) => {
-    setTouched(prev => ({ ...prev, [fieldName]: true }))
+    setTouchedState(prev => ({ ...prev, [fieldName]: true }))
     
     // Validate on blur
     const error = validate(fieldName, values[fieldName])
@@ -146,18 +146,18 @@ export const useFormValidation = (initialValues, validationRules) => {
     })
 
     setErrors(newErrors)
-    setTouched(Object.keys(validationRules).reduce((acc, key) => {
+    setTouchedState(Object.keys(validationRules).reduce((acc, key) => {
       acc[key] = true
       return acc
     }, {}))
 
     return isValid
-  }, [validationRules, validate, values])
+  }, [validationRules, validate, values, setTouchedState])
 
   const reset = useCallback(() => {
     setValues(initialValues)
     setErrors({})
-    setTouched({})
+    setTouchedState({})
   }, [initialValues])
 
   return {

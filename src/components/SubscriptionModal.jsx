@@ -1,5 +1,4 @@
-import React from 'react'
-import { Crown, Check, X } from 'lucide-react'
+import { Crown, Check } from 'lucide-react'
 import Modal from './Modal'
 import Button from './Button'
 

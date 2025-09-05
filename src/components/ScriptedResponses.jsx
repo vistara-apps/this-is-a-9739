@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { MessageSquare, Copy, Lock, Volume2 } from 'lucide-react'
 import Card from './Card'
 import Button from './Button'

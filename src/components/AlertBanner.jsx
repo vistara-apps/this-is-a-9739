@@ -1,5 +1,5 @@
-import React from 'react'
 import { Info, AlertTriangle, CheckCircle, X } from 'lucide-react'
+import PropTypes from 'prop-types'
 import Button from './Button'
 
 const AlertBanner = ({ type = 'info', message, action, onAction, onDismiss }) => {
@@ -49,6 +49,14 @@ const AlertBanner = ({ type = 'info', message, action, onAction, onDismiss }) =>
       </div>
     </div>
   )
+}
+
+AlertBanner.propTypes = {
+  type: PropTypes.oneOf(['info', 'warning', 'success']),
+  message: PropTypes.string.isRequired,
+  action: PropTypes.string,
+  onAction: PropTypes.func,
+  onDismiss: PropTypes.func
 }
 
 export default AlertBanner

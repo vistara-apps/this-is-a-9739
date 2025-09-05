@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { MapPin, Globe, Menu, Shield } from 'lucide-react'
 import Button from './Button'
 
