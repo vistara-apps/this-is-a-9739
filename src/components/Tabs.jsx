@@ -1,4 +1,4 @@
-import React from 'react'
+
 
 const Tabs = ({ tabs, activeTab, onTabChange, language }) => {
   const getTabLabel = (tab) => {

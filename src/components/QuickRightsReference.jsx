@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Shield, MapPin, Lock, Eye } from 'lucide-react'
+import { useState } from 'react'
+import { Shield, MapPin, Lock } from 'lucide-react'
 import Card from './Card'
 import Button from './Button'
 

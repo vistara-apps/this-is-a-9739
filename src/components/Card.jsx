@@ -1,4 +1,4 @@
-import React from 'react'
+
 
 const Card = ({ children, variant = 'default', className = '', ...props }) => {
   const baseClasses = 'card animate-fade-in'
