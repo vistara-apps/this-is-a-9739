@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Shield, Mic, Share2 } from 'lucide-react'
 import { Toaster } from 'react-hot-toast'
 import { useAppStore } from './stores/appStore'

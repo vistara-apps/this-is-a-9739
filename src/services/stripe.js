@@ -275,10 +275,9 @@ export const mockApiService = {
   /**
    * Simulate creating a payment intent
    * @param {string} planId 
-   * @param {string} userId 
    * @returns {Promise<{clientSecret: string}>}
    */
-  async createPaymentIntent(planId, userId) {
+  async createPaymentIntent(planId) {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 1000))
     

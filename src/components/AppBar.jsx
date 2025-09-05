@@ -1,4 +1,4 @@
-import React from 'react'
+// React import removed for JSX transform
 import { MapPin, Globe, Menu, Shield } from 'lucide-react'
 import Button from './Button'
 

@@ -1,5 +1,5 @@
-import React from 'react'
-import { Crown, Check, X } from 'lucide-react'
+// React import removed for JSX transform
+import { Crown, Check } from 'lucide-react'
 import Modal from './Modal'
 import Button from './Button'
 

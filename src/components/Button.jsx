@@ -1,4 +1,4 @@
-import React from 'react'
+// React import removed for JSX transform
 
 const Button = ({ 
   children, 

@@ -280,7 +280,7 @@ export const locationService = {
    */
   async requestPermission() {
     try {
-      const { location, error } = await this.getCurrentPosition({ timeout: 5000 })
+      const { error } = await this.getCurrentPosition({ timeout: 5000 })
       
       if (error) {
         return { granted: false, error }
