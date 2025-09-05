@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: system-ui, sans-serif;
+  }
+  
+  body {
+    background-color: hsl(220 10% 98%);
+    color: hsl(220 15% 20%);
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-white font-semibold py-3 px-6 rounded-md shadow-card hover:opacity-90 transition-opacity duration-200;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-white font-semibold py-3 px-6 rounded-md shadow-card hover:opacity-90 transition-opacity duration-200;
+  }
+  
+  .btn-outline {
+    @apply border-2 border-primary text-primary font-semibold py-3 px-6 rounded-md hover:bg-primary hover:text-white transition-colors duration-200;
+  }
+  
+  .card {
+    @apply bg-surface rounded-lg shadow-card p-6;
+  }
+  
+  .card-highlighted {
+    @apply bg-gradient-to-br from-primary/10 to-secondary/10 border border-primary/20;
+  }
+}
