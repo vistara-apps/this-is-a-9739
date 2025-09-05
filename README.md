@@ -313,3 +313,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Built with ❤️ for civil rights and community safety**
 
 *Pocket Parley - Your rights, on call.*
+# Build fix attempt
