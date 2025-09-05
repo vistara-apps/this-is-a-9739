@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { Video, Mic, Square, Phone, MapPin, Clock, Lock } from 'lucide-react'
 import Card from './Card'
 import Button from './Button'

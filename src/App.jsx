@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import { Shield, MapPin, Mic, Share2, Menu, X, Globe, Settings } from 'lucide-react'
+import { useEffect } from 'react'
+import { Shield, Mic, Share2 } from 'lucide-react'
+import { Toaster } from 'react-hot-toast'
+import { useAppStore } from './stores/appStore'
 import AppBar from './components/AppBar'
-import Card from './components/Card'
-import Button from './components/Button'
-import Modal from './components/Modal'
 import Tabs from './components/Tabs'
 import AlertBanner from './components/AlertBanner'
 import QuickRightsReference from './components/QuickRightsReference'
@@ -13,30 +12,22 @@ import InteractionSummary from './components/InteractionSummary'
 import SubscriptionModal from './components/SubscriptionModal'
 
 function App() {
-  const [activeTab, setActiveTab] = useState('rights')
-  const [location, setLocation] = useState(null)
-  const [isSubscribed, setIsSubscribed] = useState(false)
-  const [showSubscriptionModal, setShowSubscriptionModal] = useState(false)
-  const [language, setLanguage] = useState('en')
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const {
+    activeTab,
+    location,
+    subscriptionStatus,
+    showSubscriptionModal,
+    language,
+    isLoading,
+    actions
+  } = useAppStore()
 
-  // Mock location detection
+  const isSubscribed = subscriptionStatus !== 'free'
+
+  // Initialize app on mount
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setLocation({
-            state: 'California', // Mock state for demo
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          })
-        },
-        () => {
-          setLocation({ state: 'Unknown', lat: null, lng: null })
-        }
-      )
-    }
-  }, [])
+    actions.initialize()
+  }, [actions])
 
   const tabs = [
     { id: 'rights', label: 'Rights', icon: Shield },
@@ -46,16 +37,43 @@ function App() {
   ]
 
   const toggleLanguage = () => {
-    setLanguage(prev => prev === 'en' ? 'es' : 'en')
+    const newLanguage = language === 'en' ? 'es' : 'en'
+    actions.setLanguage(newLanguage)
+  }
+
+  // Show loading screen during initialization
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-text-secondary">Loading Pocket Parley...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
     <div className="min-h-screen bg-background">
+      <Toaster 
+        position="top-center"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: 'hsl(220 10% 100%)',
+            color: 'hsl(220 15% 20%)',
+            border: '1px solid hsl(220 10% 90%)',
+            borderRadius: '10px',
+            boxShadow: '0 4px 12px hsla(220, 10%, 20%, 0.1)'
+          }
+        }}
+      />
+      
       <AppBar 
         location={location}
         language={language}
         onLanguageToggle={toggleLanguage}
-        onMenuToggle={() => setIsMenuOpen(!isMenuOpen)}
+        onMenuToggle={() => {}} // Menu functionality can be added later
         isSubscribed={isSubscribed}
       />
 
@@ -64,7 +82,7 @@ function App() {
           type="info"
           message="Get unlimited access to all features with Pocket Parley Premium"
           action="Upgrade Now"
-          onAction={() => setShowSubscriptionModal(true)}
+          onAction={() => actions.toggleSubscriptionModal(true)}
         />
       )}
 
@@ -84,7 +102,7 @@ function App() {
         <Tabs 
           tabs={tabs}
           activeTab={activeTab}
-          onTabChange={setActiveTab}
+          onTabChange={actions.setActiveTab}
           language={language}
         />
 
@@ -94,7 +112,7 @@ function App() {
               location={location}
               language={language}
               isSubscribed={isSubscribed}
-              onUpgrade={() => setShowSubscriptionModal(true)}
+              onUpgrade={() => actions.toggleSubscriptionModal(true)}
             />
           )}
           
@@ -102,15 +120,16 @@ function App() {
             <ScriptedResponses 
               language={language}
               isSubscribed={isSubscribed}
-              onUpgrade={() => setShowSubscriptionModal(true)}
+              onUpgrade={() => actions.toggleSubscriptionModal(true)}
             />
           )}
           
           {activeTab === 'record' && (
             <IncidentRecording 
+              location={location}
               language={language}
               isSubscribed={isSubscribed}
-              onUpgrade={() => setShowSubscriptionModal(true)}
+              onUpgrade={() => actions.toggleSubscriptionModal(true)}
             />
           )}
           
@@ -118,7 +137,7 @@ function App() {
             <InteractionSummary 
               language={language}
               isSubscribed={isSubscribed}
-              onUpgrade={() => setShowSubscriptionModal(true)}
+              onUpgrade={() => actions.toggleSubscriptionModal(true)}
             />
           )}
         </div>
@@ -126,10 +145,10 @@ function App() {
 
       {showSubscriptionModal && (
         <SubscriptionModal 
-          onClose={() => setShowSubscriptionModal(false)}
-          onSubscribe={() => {
-            setIsSubscribed(true)
-            setShowSubscriptionModal(false)
+          onClose={() => actions.toggleSubscriptionModal(false)}
+          onSubscribe={(planId) => {
+            actions.updateSubscriptionStatus(planId)
+            actions.toggleSubscriptionModal(false)
           }}
           language={language}
         />
